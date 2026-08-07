@@ -9,6 +9,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import type { FormEvent } from "react";
 
 const navigationItems = [
   {
@@ -32,9 +33,57 @@ const navigationItems = [
     active: false,
   },
 ];
+type ApplicationStatus = "Applied" | "Interview" | "Offer" | "Rejected";
+
+type Application = {
+  id: number;
+  company: string;
+  position: string;
+  location: string;
+  dateApplied: string;
+  status: ApplicationStatus;
+  notes: string;
+};
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [applications, setApplications] = useState<Application[]>([]);
+
+  const [company, setCompany] = useState("");
+  const [position, setPosition] = useState("");
+  const [location, setLocation] = useState("");
+  const [dateApplied, setDateApplied] = useState("");
+  const [status, setStatus] = useState<ApplicationStatus>("Applied");
+  const [notes, setNotes] = useState("");
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+
+  if (!company.trim() || !position.trim() || !dateApplied) {
+    return;
+  }
+
+  const newApplication: Application = {
+    id: Date.now(),
+    company: company.trim(),
+    position: position.trim(),
+    location: location.trim(),
+    dateApplied,
+    status,
+    notes: notes.trim(),
+  };
+
+  setApplications((currentApplications) => [
+    newApplication,
+    ...currentApplications,
+  ]);
+
+  setCompany("");
+  setPosition("");
+  setLocation("");
+  setDateApplied("");
+  setStatus("Applied");
+  setNotes("");
+};
 
   return (
     <div className="min-h-screen bg-[#f6f5f1] text-[#24313a]">
@@ -174,7 +223,10 @@ function App() {
     </p>
   </div>
 
-  <form className="grid gap-5 sm:grid-cols-2">
+  <form
+  onSubmit={handleSubmit}
+  className="grid gap-5 sm:grid-cols-2"
+>
     <div>
       <label className="mb-2 block text-sm font-semibold text-[#34444b]">
         Company
@@ -183,6 +235,9 @@ function App() {
       <input
         type="text"
         placeholder="e.g. Microsoft"
+        value={company}
+        onChange={(event) => setCompany(event.target.value)}
+        required
         className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
       />
     </div>
@@ -195,6 +250,9 @@ function App() {
       <input
         type="text"
         placeholder="e.g. Software Engineering Intern"
+        value={position}
+        onChange={(event) => setPosition(event.target.value)}
+        required
         className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
       />
     </div>
@@ -207,6 +265,8 @@ function App() {
       <input
         type="text"
         placeholder="e.g. Toronto, ON"
+        value={location}
+        onChange={(event) => setLocation(event.target.value)}
         className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
       />
     </div>
@@ -218,6 +278,9 @@ function App() {
 
       <input
         type="date"
+        value={dateApplied}
+        onChange={(event) => setDateApplied(event.target.value)}
+        required
         className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
       />
     </div>
@@ -228,6 +291,10 @@ function App() {
       </label>
 
       <select
+        value={status}
+        onChange={(event) =>
+        setStatus(event.target.value as ApplicationStatus)
+        }
         className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
       >
         <option>Applied</option>
@@ -245,6 +312,8 @@ function App() {
       <textarea
         rows={4}
         placeholder="Anything useful to remember about this application..."
+        value={notes}
+        onChange={(event) => setNotes(event.target.value)}
         className="w-full resize-none rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
       />
     </div>
@@ -258,6 +327,73 @@ function App() {
       </button>
     </div>
   </form>
+</section>
+
+<section className="mt-8 rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
+  <div className="mb-6">
+    <p className="text-sm font-bold text-[#4f857f]">
+      Applications
+    </p>
+
+    <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#203039]">
+      Your applications
+    </h2>
+  </div>
+
+  {applications.length === 0 ? (
+    <div className="rounded-2xl border border-dashed border-[#d8d8d1] bg-[#f8f6f0] px-6 py-12 text-center">
+      <BriefcaseBusiness className="mx-auto h-8 w-8 text-[#8ca9a5]" />
+
+      <p className="mt-3 font-semibold text-[#34444b]">
+        No applications yet
+      </p>
+
+      <p className="mt-1 text-sm text-[#707b7e]">
+        Add your first application using the form above.
+      </p>
+    </div>
+  ) : (
+    <div className="space-y-4">
+      {applications.map((application) => (
+        <article
+          key={application.id}
+          className="rounded-2xl border border-[#deddd7] bg-white p-5"
+        >
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h3 className="text-lg font-extrabold text-[#203039]">
+                {application.company}
+              </h3>
+
+              <p className="mt-1 font-semibold text-[#4f857f]">
+                {application.position}
+              </p>
+
+              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-[#707b7e]">
+                {application.location && (
+                  <span>{application.location}</span>
+                )}
+
+                <span>
+                  Applied {application.dateApplied}
+                </span>
+              </div>
+            </div>
+
+            <span className="w-fit rounded-full bg-[#eaf2f0] px-3 py-1.5 text-xs font-bold text-[#315f5b]">
+              {application.status}
+            </span>
+          </div>
+
+          {application.notes && (
+            <p className="mt-4 border-t border-[#eceae4] pt-4 text-sm leading-6 text-[#657277]">
+              {application.notes}
+            </p>
+          )}
+        </article>
+      ))}
+    </div>
+  )}
 </section>
         </div>
       </main>
