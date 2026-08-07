@@ -159,36 +159,106 @@ function App() {
         </header>
 
         <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8">
-          <section className="overflow-hidden rounded-[28px] border border-[#deddd7] bg-[#fffdfa] shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
-            <div className="border-b border-[#e5e3dd] bg-[#f1eee5] px-7 py-5">
-              <p className="text-sm font-bold text-[#4f857f]">
-                Application overview
-              </p>
-            </div>
+          <section className="rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
+  <div className="mb-6">
+    <p className="text-sm font-bold text-[#4f857f]">
+      New application
+    </p>
 
-            <div className="px-7 py-14 text-center sm:py-18">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-[#e6efed]">
-                <BriefcaseBusiness className="h-8 w-8 text-[#4f857f]" />
-              </div>
+    <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#203039]">
+      Add an internship
+    </h2>
 
-              <h2 className="mt-6 text-2xl font-extrabold tracking-tight text-[#203039]">
-                Your internship search starts here
-              </h2>
+    <p className="mt-2 text-sm text-[#707b7e]">
+      Keep the important details from each application in one place.
+    </p>
+  </div>
 
-              <p className="mx-auto mt-3 max-w-lg text-sm font-medium leading-7 text-[#707b7e]">
-                Your applications, interviews, deadlines, and progress
-                will appear here as you build your tracker.
-              </p>
+  <form className="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label className="mb-2 block text-sm font-semibold text-[#34444b]">
+        Company
+      </label>
 
-              <button
-                type="button"
-                className="mt-7 inline-flex items-center gap-2 rounded-2xl border border-[#c8d8d5] bg-[#eaf2f0] px-5 py-3 text-sm font-bold text-[#315f5b] transition hover:-translate-y-0.5 hover:bg-[#dcebe8]"
-              >
-                <Plus className="h-4 w-4" />
-                Add your first application
-              </button>
-            </div>
-          </section>
+      <input
+        type="text"
+        placeholder="e.g. Microsoft"
+        className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+      />
+    </div>
+
+    <div>
+      <label className="mb-2 block text-sm font-semibold text-[#34444b]">
+        Position
+      </label>
+
+      <input
+        type="text"
+        placeholder="e.g. Software Engineering Intern"
+        className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+      />
+    </div>
+
+    <div>
+      <label className="mb-2 block text-sm font-semibold text-[#34444b]">
+        Location
+      </label>
+
+      <input
+        type="text"
+        placeholder="e.g. Toronto, ON"
+        className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+      />
+    </div>
+
+    <div>
+      <label className="mb-2 block text-sm font-semibold text-[#34444b]">
+        Date applied
+      </label>
+
+      <input
+        type="date"
+        className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+      />
+    </div>
+
+    <div>
+      <label className="mb-2 block text-sm font-semibold text-[#34444b]">
+        Status
+      </label>
+
+      <select
+        className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+      >
+        <option>Applied</option>
+        <option>Interview</option>
+        <option>Offer</option>
+        <option>Rejected</option>
+      </select>
+    </div>
+
+    <div className="sm:col-span-2">
+      <label className="mb-2 block text-sm font-semibold text-[#34444b]">
+        Notes
+      </label>
+
+      <textarea
+        rows={4}
+        placeholder="Anything useful to remember about this application..."
+        className="w-full resize-none rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+      />
+    </div>
+
+    <div className="sm:col-span-2">
+      <button
+        type="submit"
+        className="rounded-2xl bg-[#d96f57] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#c95f49]"
+      >
+        Save application
+      </button>
+    </div>
+  </form>
+</section>
         </div>
       </main>
     </div>
