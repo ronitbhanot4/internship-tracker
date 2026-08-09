@@ -4,8 +4,10 @@ import {
   CalendarDays,
   FileText,
   Menu,
+  Pencil,
   Plus,
   Settings,
+  Trash2,
   X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -49,6 +51,7 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [applications, setApplications] = useState<Application[]>(() => {
   const savedApplications = localStorage.getItem("internshipApplications");
+  
 
   if (!savedApplications) {
     return [];
@@ -67,12 +70,33 @@ function App() {
   const [dateApplied, setDateApplied] = useState("");
   const [status, setStatus] = useState<ApplicationStatus>("Applied");
   const [notes, setNotes] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
   useEffect(() => {
   localStorage.setItem(
     "internshipApplications",
     JSON.stringify(applications),
   );
 }, [applications]);
+  const handleDelete = (id: number) => {
+  setApplications((currentApplications) =>
+    currentApplications.filter((application) => application.id !== id),
+  );
+};
+
+const handleEdit = (application: Application) => {
+  setCompany(application.company);
+  setPosition(application.position);
+  setLocation(application.location);
+  setDateApplied(application.dateApplied);
+  setStatus(application.status);
+  setNotes(application.notes);
+  setEditingId(application.id);
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
   
   event.preventDefault();
@@ -80,7 +104,33 @@ function App() {
   if (!company.trim() || !position.trim() || !dateApplied) {
     return;
   }
+  if (editingId !== null) {
+  setApplications((currentApplications) =>
+    currentApplications.map((application) =>
+      application.id === editingId
+        ? {
+            ...application,
+            company: company.trim(),
+            position: position.trim(),
+            location: location.trim(),
+            dateApplied,
+            status,
+            notes: notes.trim(),
+          }
+        : application,
+    ),
+  );
 
+  setEditingId(null);
+  setCompany("");
+  setPosition("");
+  setLocation("");
+  setDateApplied("");
+  setStatus("Applied");
+  setNotes("");
+
+  return;
+}
   const newApplication: Application = {
     id: Date.now(),
     company: company.trim(),
@@ -234,7 +284,7 @@ function App() {
     </p>
 
     <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#203039]">
-      Add an internship
+      {editingId !== null ? "Edit application" : "Add an internship"}
     </h2>
 
     <p className="mt-2 text-sm text-[#707b7e]">
@@ -342,7 +392,7 @@ function App() {
         type="submit"
         className="rounded-2xl bg-[#d96f57] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#c95f49]"
       >
-        Save application
+        {editingId !== null ? "Update application" : "Save application"}
       </button>
     </div>
   </form>
@@ -399,9 +449,31 @@ function App() {
               </div>
             </div>
 
-            <span className="w-fit rounded-full bg-[#eaf2f0] px-3 py-1.5 text-xs font-bold text-[#315f5b]">
-              {application.status}
-            </span>
+            <div className="flex flex-col items-end gap-3">
+  <span className="w-fit rounded-full bg-[#eaf2f0] px-3 py-1.5 text-xs font-bold text-[#315f5b]">
+    {application.status}
+  </span>
+
+  <div className="flex items-center gap-2">
+    <button
+      type="button"
+      onClick={() => handleEdit(application)}
+      className="inline-flex items-center gap-1.5 rounded-xl border border-[#d8d8d1] px-3 py-2 text-xs font-bold text-[#4f857f] transition hover:bg-[#eaf2f0]"
+    >
+      <Pencil className="h-4 w-4" />
+      Edit
+    </button>
+
+    <button
+      type="button"
+      onClick={() => handleDelete(application.id)}
+      className="inline-flex items-center gap-1.5 rounded-xl border border-[#ead7d1] px-3 py-2 text-xs font-bold text-[#b45d49] transition hover:bg-[#fff1ec]"
+    >
+      <Trash2 className="h-4 w-4" />
+      Delete
+    </button>
+  </div>
+</div>
           </div>
 
           {application.notes && (
