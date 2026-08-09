@@ -74,9 +74,21 @@ function App() {
   useEffect(() => {
   localStorage.setItem(
     "internshipApplications",
-    JSON.stringify(applications),
-  );
-}, [applications]);
+    JSON.stringify(applications),);
+  }, [applications]);
+  const totalApplications = applications.length;
+
+const interviewCount = applications.filter(
+  (application) => application.status === "Interview",
+).length;
+
+const offerCount = applications.filter(
+  (application) => application.status === "Offer",
+).length;
+
+const rejectedCount = applications.filter(
+  (application) => application.status === "Rejected",
+).length;
   const handleDelete = (id: number) => {
   setApplications((currentApplications) =>
     currentApplications.filter((application) => application.id !== id),
@@ -277,6 +289,38 @@ const handleEdit = (application: Application) => {
         </header>
 
         <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8">
+
+          <section className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+  <div className="rounded-2xl border border-[#deddd7] bg-[#fffdfa] p-5 shadow-sm">
+    <p className="text-sm font-semibold text-[#707b7e]">
+      Total applications
+    </p>
+    <p className="mt-2 text-3xl font-extrabold text-[#203039]">
+      {totalApplications}
+    </p>
+  </div>
+
+  <div className="rounded-2xl border border-[#deddd7] bg-[#fffdfa] p-5 shadow-sm">
+    <p className="text-sm font-semibold text-[#707b7e]">Interviews</p>
+    <p className="mt-2 text-3xl font-extrabold text-[#4f857f]">
+      {interviewCount}
+    </p>
+  </div>
+
+  <div className="rounded-2xl border border-[#deddd7] bg-[#fffdfa] p-5 shadow-sm">
+    <p className="text-sm font-semibold text-[#707b7e]">Offers</p>
+    <p className="mt-2 text-3xl font-extrabold text-[#d96f57]">
+      {offerCount}
+    </p>
+  </div>
+
+  <div className="rounded-2xl border border-[#deddd7] bg-[#fffdfa] p-5 shadow-sm">
+    <p className="text-sm font-semibold text-[#707b7e]">Rejections</p>
+    <p className="mt-2 text-3xl font-extrabold text-[#9a5b51]">
+      {rejectedCount}
+    </p>
+  </div>
+</section>
           <section className="rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
   <div className="mb-6">
     <p className="text-sm font-bold text-[#4f857f]">
