@@ -8,7 +8,7 @@ import {
   Settings,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 
 const navigationItems = [
@@ -47,7 +47,19 @@ type Application = {
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [applications, setApplications] = useState<Application[]>([]);
+  const [applications, setApplications] = useState<Application[]>(() => {
+  const savedApplications = localStorage.getItem("internshipApplications");
+
+  if (!savedApplications) {
+    return [];
+  }
+
+  try {
+    return JSON.parse(savedApplications) as Application[];
+  } catch {
+    return [];
+  }
+});
 
   const [company, setCompany] = useState("");
   const [position, setPosition] = useState("");
@@ -55,7 +67,14 @@ function App() {
   const [dateApplied, setDateApplied] = useState("");
   const [status, setStatus] = useState<ApplicationStatus>("Applied");
   const [notes, setNotes] = useState("");
+  useEffect(() => {
+  localStorage.setItem(
+    "internshipApplications",
+    JSON.stringify(applications),
+  );
+}, [applications]);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  
   event.preventDefault();
 
   if (!company.trim() || !position.trim() || !dateApplied) {
