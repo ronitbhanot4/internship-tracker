@@ -108,8 +108,9 @@ function App() {
   "newest" | "oldest" | "companyAZ" | "companyZA"
 >("newest");
   const [activePage, setActivePage] = useState<
-  "Dashboard" | "Applications" | "Interviews" | "Documents"
+  "Dashboard" | "Applications" | "Interviews" | "Documents" | "Settings"
 >("Dashboard");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   useEffect(() => {
   localStorage.setItem(
     "internshipApplications",
@@ -355,6 +356,10 @@ const handleEdit = (application: Application) => {
         <div className="border-t border-white/10 p-4">
           <button
             type="button"
+            onClick={() => {
+              setActivePage("Settings");
+              setIsSidebarOpen(false);
+              }}
             className="flex w-full items-center gap-3 rounded-2xl px-4 py-3.5 text-sm font-semibold text-[#c7d9d6] transition hover:bg-white/10 hover:text-white"
           >
             <Settings className="h-5 w-5" />
@@ -383,28 +388,41 @@ const handleEdit = (application: Application) => {
 
                 <h1 className="text-xl font-extrabold tracking-tight text-[#203039] sm:text-2xl">
   {activePage === "Dashboard"
-    ? "Good afternoon, Ronit"
-    : activePage === "Applications"
-      ? "Applications"
-      : activePage === "Interviews"
-        ? "Interviews"
-        : "Documents"}
+  ? "Good afternoon, Ronit"
+  : activePage === "Applications"
+    ? "Applications"
+    : activePage === "Interviews"
+      ? "Interviews"
+      : activePage === "Documents"
+        ? "Documents"
+        : "Settings"}
 </h1>
 
 <p className="mt-1.5 text-sm font-medium text-[#6e797d]">
   {activePage === "Dashboard"
-    ? "Keep your internship search organized and moving forward."
-    : activePage === "Applications"
-      ? "Manage and track all of your internship applications."
-      : activePage === "Interviews"
-        ? "Keep track of your upcoming and completed interviews."
-        : "Keep your resumes, cover letters, and application documents organized."}
+  ? "Keep your internship search organized and moving forward."
+  : activePage === "Applications"
+    ? "Manage and track all of your internship applications."
+    : activePage === "Interviews"
+      ? "Keep track of your upcoming and completed interviews."
+      : activePage === "Documents"
+        ? "Keep your resumes, cover letters, and application documents organized."
+        : "Customize the appearance and preferences of your tracker."}
 </p>
               </div>
             </div>
 
             <button
               type="button"
+              onClick={() => {
+  setActivePage("Applications");
+  setTimeout(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, 0);
+}}
               className="inline-flex items-center gap-2 rounded-2xl bg-[#d96f57] px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#c95f49] hover:shadow-md"
             >
               <Plus className="h-5 w-5" />
@@ -414,6 +432,7 @@ const handleEdit = (application: Application) => {
               </span>
 
               <span className="sm:hidden">Add</span>
+              
             </button>
           </div>
         </header>
@@ -868,6 +887,70 @@ const handleEdit = (application: Application) => {
     </div>
   )}
 </div>
+  </section>
+)}
+{activePage === "Settings" && (
+  <section className="rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
+    <div className="mb-6">
+      <p className="text-sm font-bold text-[#4f857f]">
+        Appearance
+      </p>
+
+      <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#203039]">
+        Choose your theme
+      </h2>
+
+      <p className="mt-2 text-sm text-[#707b7e]">
+        Select the appearance you prefer for your internship tracker.
+      </p>
+    </div>
+
+    <div className="grid gap-4 sm:grid-cols-2">
+      <button
+        type="button"
+        onClick={() => setTheme("light")}
+        className={`rounded-2xl border p-5 text-left transition ${
+          theme === "light"
+            ? "border-[#4f857f] bg-[#f8f6f0]"
+            : "border-[#deddd7] bg-white"
+        }`}
+      >
+        <p className="font-bold text-[#203039]">Light</p>
+        <p className="mt-1 text-sm text-[#707b7e]">
+          Bright and clean appearance.
+        </p>
+      </button>
+
+      <button
+        type="button"
+        onClick={() => setTheme("dark")}
+        className={`rounded-2xl border p-5 text-left transition ${
+          theme === "dark"
+            ? "border-[#4f857f] bg-[#26383a]"
+            : "border-[#deddd7] bg-white"
+        }`}
+      >
+        <p
+          className={
+            theme === "dark"
+              ? "font-bold text-white"
+              : "font-bold text-[#203039]"
+          }
+        >
+          Dark
+        </p>
+
+        <p
+          className={
+            theme === "dark"
+              ? "mt-1 text-sm text-[#c7d9d6]"
+              : "mt-1 text-sm text-[#707b7e]"
+          }
+        >
+          A darker appearance for low-light environments.
+        </p>
+      </button>
+    </div>
   </section>
 )}
         </div>
