@@ -79,6 +79,9 @@ function App() {
   const [sortBy, setSortBy] = useState<
   "newest" | "oldest" | "companyAZ" | "companyZA"
 >("newest");
+  const [activePage, setActivePage] = useState<
+  "Dashboard" | "Applications" | "Interviews" | "Documents"
+>("Dashboard");
   useEffect(() => {
   localStorage.setItem(
     "internshipApplications",
@@ -265,8 +268,17 @@ const handleEdit = (application: Application) => {
               <button
                 key={item.label}
                 type="button"
+                onClick={() =>
+  setActivePage(
+    item.label as
+      | "Dashboard"
+      | "Applications"
+      | "Interviews"
+      | "Documents",
+  )
+}
                 className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3.5 text-left text-sm font-semibold transition ${
-                  item.active
+                  activePage === item.label
                     ? "bg-[#f4eee4] text-[#19383b] shadow-sm"
                     : "text-[#c7d9d6] hover:bg-white/10 hover:text-white"
                 }`}
