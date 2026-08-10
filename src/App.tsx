@@ -71,6 +71,10 @@ function App() {
   const [status, setStatus] = useState<ApplicationStatus>("Applied");
   const [notes, setNotes] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState<
+  "All" | ApplicationStatus
+>("All");
   useEffect(() => {
   localStorage.setItem(
     "internshipApplications",
@@ -89,6 +93,20 @@ const offerCount = applications.filter(
 const rejectedCount = applications.filter(
   (application) => application.status === "Rejected",
 ).length;
+
+const filteredApplications = applications.filter((application) => {
+  const search = searchTerm.toLowerCase();
+
+  const matchesSearch =
+    application.company.toLowerCase().includes(search) ||
+    application.position.toLowerCase().includes(search) ||
+    application.location.toLowerCase().includes(search);
+
+  const matchesStatus =
+    statusFilter === "All" || application.status === statusFilter;
+
+  return matchesSearch && matchesStatus;
+});
   const handleDelete = (id: number) => {
   setApplications((currentApplications) =>
     currentApplications.filter((application) => application.id !== id),
@@ -453,6 +471,32 @@ const handleEdit = (application: Application) => {
     </h2>
   </div>
 
+  <div className="mb-6 grid gap-3 sm:grid-cols-[1fr_200px]">
+  <input
+    type="search"
+    value={searchTerm}
+    onChange={(event) => setSearchTerm(event.target.value)}
+    placeholder="Search company, position, or location..."
+    className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+  />
+
+  <select
+    value={statusFilter}
+    onChange={(event) =>
+      setStatusFilter(
+        event.target.value as "All" | ApplicationStatus,
+      )
+    }
+    className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+  >
+    <option value="All">Filter by status</option>
+    <option value="Applied">Applied</option>
+    <option value="Interview">Interview</option>
+    <option value="Offer">Offer</option>
+    <option value="Rejected">Rejected</option>
+  </select>
+</div>
+
   {applications.length === 0 ? (
     <div className="rounded-2xl border border-dashed border-[#d8d8d1] bg-[#f8f6f0] px-6 py-12 text-center">
       <BriefcaseBusiness className="mx-auto h-8 w-8 text-[#8ca9a5]" />
@@ -467,7 +511,7 @@ const handleEdit = (application: Application) => {
     </div>
   ) : (
     <div className="space-y-4">
-      {applications.map((application) => (
+      {filteredApplications.map((application) => (
         <article
           key={application.id}
           className="rounded-2xl border border-[#deddd7] bg-white p-5"
