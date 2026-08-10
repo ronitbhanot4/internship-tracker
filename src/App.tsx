@@ -75,6 +75,10 @@ function App() {
   const [statusFilter, setStatusFilter] = useState<
   "All" | ApplicationStatus
 >("All");
+
+  const [sortBy, setSortBy] = useState<
+  "newest" | "oldest" | "companyAZ" | "companyZA"
+>("newest");
   useEffect(() => {
   localStorage.setItem(
     "internshipApplications",
@@ -94,19 +98,41 @@ const rejectedCount = applications.filter(
   (application) => application.status === "Rejected",
 ).length;
 
-const filteredApplications = applications.filter((application) => {
-  const search = searchTerm.toLowerCase();
+const filteredApplications = applications
+  .filter((application) => {
+    const search = searchTerm.toLowerCase();
 
-  const matchesSearch =
-    application.company.toLowerCase().includes(search) ||
-    application.position.toLowerCase().includes(search) ||
-    application.location.toLowerCase().includes(search);
+    const matchesSearch =
+      application.company.toLowerCase().includes(search) ||
+      application.position.toLowerCase().includes(search) ||
+      application.location.toLowerCase().includes(search);
 
-  const matchesStatus =
-    statusFilter === "All" || application.status === statusFilter;
+    const matchesStatus =
+      statusFilter === "All" || application.status === statusFilter;
 
-  return matchesSearch && matchesStatus;
-});
+    return matchesSearch && matchesStatus;
+  })
+  .sort((a, b) => {
+    if (sortBy === "newest") {
+      return (
+        new Date(b.dateApplied).getTime() -
+        new Date(a.dateApplied).getTime()
+      );
+    }
+
+    if (sortBy === "oldest") {
+      return (
+        new Date(a.dateApplied).getTime() -
+        new Date(b.dateApplied).getTime()
+      );
+    }
+
+    if (sortBy === "companyAZ") {
+      return a.company.localeCompare(b.company);
+    }
+
+    return b.company.localeCompare(a.company);
+  });
   const handleDelete = (id: number) => {
   setApplications((currentApplications) =>
     currentApplications.filter((application) => application.id !== id),
@@ -471,7 +497,7 @@ const handleEdit = (application: Application) => {
     </h2>
   </div>
 
-  <div className="mb-6 grid gap-3 sm:grid-cols-[1fr_200px]">
+  <div className="mb-6 grid gap-3 md:grid-cols-[1fr_190px_190px]">
   <input
     type="search"
     value={searchTerm}
@@ -495,6 +521,24 @@ const handleEdit = (application: Application) => {
     <option value="Offer">Offer</option>
     <option value="Rejected">Rejected</option>
   </select>
+  <select
+  value={sortBy}
+  onChange={(event) =>
+    setSortBy(
+      event.target.value as
+        | "newest"
+        | "oldest"
+        | "companyAZ"
+        | "companyZA",
+    )
+  }
+  className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+>
+  <option value="newest">Newest first</option>
+  <option value="oldest">Oldest first</option>
+  <option value="companyAZ">Company A–Z</option>
+  <option value="companyZA">Company Z–A</option>
+</select>
 </div>
 
   {applications.length === 0 ? (
