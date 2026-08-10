@@ -136,6 +136,10 @@ const filteredApplications = applications
 
     return b.company.localeCompare(a.company);
   });
+
+  const interviewApplications = applications.filter(
+  (application) => application.status === "Interview",
+);
   const handleDelete = (id: number) => {
   setApplications((currentApplications) =>
     currentApplications.filter((application) => application.id !== id),
@@ -647,6 +651,64 @@ const handleEdit = (application: Application) => {
     </div>
   )}
 </section>
+)}
+
+{activePage === "Interviews" && (
+  <section className="rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
+    <div className="mb-6">
+      <p className="text-sm font-bold text-[#4f857f]">
+        Interviews
+      </p>
+
+      <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#203039]">
+        Your interviews
+      </h2>
+    </div>
+
+    {interviewApplications.length === 0 ? (
+      <div className="rounded-2xl border border-dashed border-[#d8d8d1] bg-[#f8f6f0] px-6 py-12 text-center">
+        <CalendarDays className="mx-auto h-8 w-8 text-[#4f857f]" />
+
+        <p className="mt-3 font-semibold text-[#34444b]">
+          No interviews yet
+        </p>
+
+        <p className="mt-1 text-sm text-[#707b7e]">
+          Applications marked as Interview will appear here.
+        </p>
+      </div>
+    ) : (
+      <div className="space-y-4">
+        {interviewApplications.map((application) => (
+          <article
+            key={application.id}
+            className="rounded-2xl border border-[#deddd7] bg-white p-5"
+          >
+            <h3 className="text-lg font-extrabold text-[#203039]">
+              {application.company}
+            </h3>
+
+            <p className="mt-1 font-semibold text-[#4f857f]">
+              {application.position}
+            </p>
+
+            <div className="mt-3 flex flex-wrap gap-4 text-sm text-[#707b7e]">
+              {application.location && (
+                <span>{application.location}</span>
+              )}
+              <span>Applied {application.dateApplied}</span>
+            </div>
+
+            {application.notes && (
+              <p className="mt-4 border-t border-[#eceae4] pt-4 text-sm leading-6 text-[#657277]">
+                {application.notes}
+              </p>
+            )}
+          </article>
+        ))}
+      </div>
+    )}
+  </section>
 )}
         </div>
       </main>
