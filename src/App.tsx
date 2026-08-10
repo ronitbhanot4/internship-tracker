@@ -47,10 +47,20 @@ type Application = {
   notes: string;
 };
 
+type DocumentType = "Resume" | "Cover Letter" | "Transcript" | "Portfolio" | "Other";
+
+type Document = {
+  id: number;
+  name: string;
+  type: DocumentType;
+  link: string;
+};
+
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [applications, setApplications] = useState<Application[]>(() => {
   const savedApplications = localStorage.getItem("internshipApplications");
+  
   
 
   if (!savedApplications) {
@@ -63,6 +73,24 @@ function App() {
     return [];
   }
 });
+
+  const [documents, setDocuments] = useState<Document[]>(() => {
+  const savedDocuments = localStorage.getItem("internshipDocuments");
+
+  if (!savedDocuments) {
+    return [];
+  }
+
+  try {
+    return JSON.parse(savedDocuments) as Document[];
+  } catch {
+    return [];
+  }
+});
+  const [documentName, setDocumentName] = useState("");
+  const [documentType, setDocumentType] =
+  useState<DocumentType>("Resume");
+  const [documentLink, setDocumentLink] = useState("");
 
   const [company, setCompany] = useState("");
   const [position, setPosition] = useState("");
@@ -87,6 +115,13 @@ function App() {
     "internshipApplications",
     JSON.stringify(applications),);
   }, [applications]);
+
+  useEffect(() => {
+  localStorage.setItem(
+    "internshipDocuments",
+    JSON.stringify(documents),
+  );
+}, [documents]);
   const totalApplications = applications.length;
 
 const interviewCount = applications.filter(
@@ -145,6 +180,29 @@ const filteredApplications = applications
     currentApplications.filter((application) => application.id !== id),
   );
 };
+
+const handleAddDocument = () => {
+  if (!documentName.trim()) {
+    return;
+  }
+
+  const newDocument: Document = {
+    id: Date.now(),
+    name: documentName.trim(),
+    type: documentType,
+    link: documentLink.trim(),
+  };
+
+  setDocuments((currentDocuments) => [
+    newDocument,
+    ...currentDocuments,
+  ]);
+
+  setDocumentName("");
+  setDocumentType("Resume");
+  setDocumentLink("");
+};
+
 
 const handleEdit = (application: Application) => {
   setCompany(application.company);
@@ -708,6 +766,108 @@ const handleEdit = (application: Application) => {
         ))}
       </div>
     )}
+  </section>
+)}
+
+{activePage === "Documents" && (
+  <section className="rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
+    <div className="mb-6">
+      <p className="text-sm font-bold text-[#4f857f]">
+        Documents
+      </p>
+
+      <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#203039]">
+        Your documents
+      </h2>
+
+      <p className="mt-2 text-sm text-[#707b7e]">
+        Keep your resumes, cover letters, and application files organized in one place.
+      </p>
+    </div>
+
+    <div className="space-y-6">
+  <div className="grid gap-3 md:grid-cols-[1fr_180px_1fr_auto]">
+    <input
+      type="text"
+      value={documentName}
+      onChange={(event) => setDocumentName(event.target.value)}
+      placeholder="Document name"
+      className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+    />
+
+    <select
+      value={documentType}
+      onChange={(event) =>
+        setDocumentType(event.target.value as DocumentType)
+      }
+      className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+    >
+      <option value="Resume">Resume</option>
+      <option value="Cover Letter">Cover Letter</option>
+      <option value="Transcript">Transcript</option>
+      <option value="Portfolio">Portfolio</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <input
+      type="url"
+      value={documentLink}
+      onChange={(event) => setDocumentLink(event.target.value)}
+      placeholder="Document link (optional)"
+      className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+    />
+
+    <button
+      type="button"
+      onClick={handleAddDocument}
+      className="rounded-2xl bg-[#d96f57] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#c95f49]"
+    >
+      Add document
+    </button>
+  </div>
+
+  {documents.length === 0 ? (
+    <div className="rounded-2xl border border-dashed border-[#d8d8d1] bg-[#f8f6f0] px-6 py-12 text-center">
+      <p className="font-semibold text-[#34444b]">
+        No documents added yet
+      </p>
+
+      <p className="mt-1 text-sm text-[#707b7e]">
+        Add your first document to start building your application library.
+      </p>
+    </div>
+  ) : (
+    <div className="space-y-3">
+      {documents.map((document) => (
+        <div
+          key={document.id}
+          className="flex flex-col gap-3 rounded-2xl border border-[#deddd7] bg-white p-5 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div>
+            <p className="font-bold text-[#203039]">
+              {document.name}
+            </p>
+
+            <p className="mt-1 text-sm text-[#707b7e]">
+              {document.type}
+            </p>
+          </div>
+
+          {document.link && (
+            <a
+              href={document.link}
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm font-bold text-[#4f857f] hover:underline"
+            >
+              Open document
+            </a>
+          )}
+        </div>
+      ))}
+    </div>
+  )}
+</div>
   </section>
 )}
         </div>
