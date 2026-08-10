@@ -316,16 +316,28 @@ const handleEdit = (application: Application) => {
 
               <div>
                 <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[#4f857f]">
-                  Dashboard
+                  {activePage}
                 </p>
 
                 <h1 className="text-xl font-extrabold tracking-tight text-[#203039] sm:text-2xl">
-                  Good afternoon, Ronit
-                </h1>
+  {activePage === "Dashboard"
+    ? "Good afternoon, Ronit"
+    : activePage === "Applications"
+      ? "Applications"
+      : activePage === "Interviews"
+        ? "Interviews"
+        : "Documents"}
+</h1>
 
-                <p className="mt-1.5 text-sm font-medium text-[#6e797d]">
-                  Keep your internship search organized and moving forward.
-                </p>
+<p className="mt-1.5 text-sm font-medium text-[#6e797d]">
+  {activePage === "Dashboard"
+    ? "Keep your internship search organized and moving forward."
+    : activePage === "Applications"
+      ? "Manage and track all of your internship applications."
+      : activePage === "Interviews"
+        ? "Keep track of your upcoming and completed interviews."
+        : "Keep your resumes, cover letters, and application documents organized."}
+</p>
               </div>
             </div>
 
@@ -346,6 +358,9 @@ const handleEdit = (application: Application) => {
 
         <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8">
 
+
+{activePage === "Dashboard" && (
+        
           <section className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
   <div className="rounded-2xl border border-[#deddd7] bg-[#fffdfa] p-5 shadow-sm">
     <p className="text-sm font-semibold text-[#707b7e]">
@@ -377,6 +392,7 @@ const handleEdit = (application: Application) => {
     </p>
   </div>
 </section>
+)}      {activePage === "Applications" && (
           <section className="rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
   <div className="mb-6">
     <p className="text-sm font-bold text-[#4f857f]">
@@ -384,7 +400,7 @@ const handleEdit = (application: Application) => {
     </p>
 
     <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#203039]">
-      {editingId !== null ? "Edit application" : "Add an internship"}
+      {editingId !== null ? "Edit application" : "Add an application"}
     </h2>
 
     <p className="mt-2 text-sm text-[#707b7e]">
@@ -497,7 +513,8 @@ const handleEdit = (application: Application) => {
     </div>
   </form>
 </section>
-
+)}
+{activePage === "Applications" && (
 <section className="mt-8 rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
   <div className="mb-6">
     <p className="text-sm font-bold text-[#4f857f]">
@@ -630,6 +647,7 @@ const handleEdit = (application: Application) => {
     </div>
   )}
 </section>
+)}
         </div>
       </main>
     </div>
