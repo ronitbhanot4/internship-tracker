@@ -893,13 +893,23 @@ const handleEdit = (application: Application) => {
 )}
 
 {activePage === "Interviews" && (
-  <section className="rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
+  <section
+  className={`rounded-[28px] border p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)] transition-colors duration-300 ${
+    theme === "dark"
+      ? "border-[#345055] bg-[#20383b]"
+      : "border-[#deddd7] bg-[#fffdfa]"
+  }`}
+>
     <div className="mb-6">
       <p className="text-sm font-bold text-[#4f857f]">
         Interviews
       </p>
 
-      <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#203039]">
+      <h2
+  className={`mt-1 text-2xl font-extrabold tracking-tight ${
+    theme === "dark" ? "text-white" : "text-[#203039]"
+  }`}
+>
         Your interviews
       </h2>
     </div>
@@ -921,9 +931,17 @@ const handleEdit = (application: Application) => {
         {interviewApplications.map((application) => (
           <article
             key={application.id}
-            className="rounded-2xl border border-[#deddd7] bg-white p-5"
+            className={`rounded-2xl border p-5 transition-colors duration-300 ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d]"
+    : "border-[#deddd7] bg-white"
+}`}
           >
-            <h3 className="text-lg font-extrabold text-[#203039]">
+            <h3
+  className={`text-lg font-extrabold ${
+    theme === "dark" ? "text-white" : "text-[#203039]"
+  }`}
+>
               {application.company}
             </h3>
 
@@ -931,7 +949,11 @@ const handleEdit = (application: Application) => {
               {application.position}
             </p>
 
-            <div className="mt-3 flex flex-wrap gap-4 text-sm text-[#707b7e]">
+            <div
+  className={`mt-3 flex flex-wrap gap-4 text-sm ${
+    theme === "dark" ? "text-[#a9b9bb]" : "text-[#707b7e]"
+  }`}
+>
               {application.location && (
                 <span>{application.location}</span>
               )}
@@ -939,7 +961,13 @@ const handleEdit = (application: Application) => {
             </div>
 
             {application.notes && (
-              <p className="mt-4 border-t border-[#eceae4] pt-4 text-sm leading-6 text-[#657277]">
+              <p
+  className={`mt-4 border-t pt-4 text-sm leading-6 ${
+    theme === "dark"
+      ? "border-[#345055] text-[#a9b9bb]"
+      : "border-[#eceae4] text-[#657277]"
+  }`}
+>
                 {application.notes}
               </p>
             )}
