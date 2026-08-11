@@ -402,7 +402,11 @@ const handleEdit = (application: Application) => {
               </button>
 
               <div>
-                <p className="mb-1 text-xs font-bold uppercase tracking-[0.14em] text-[#4f857f]">
+                <p
+  className={`mb-1 text-xs font-bold uppercase tracking-[0.14em] ${
+    theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
+  }`}
+>
                   {activePage}
                 </p>
 
@@ -480,7 +484,7 @@ const handleEdit = (application: Application) => {
 >
     <p
   className={`text-sm font-semibold ${
-    theme === "dark" ? "text-[#a9b9bb]" : "text-[#707b7e]"
+    theme === "dark" ? "text-white" : "text-[#707b7e]"
   }`}
 >
       Total applications
@@ -501,10 +505,20 @@ const handleEdit = (application: Application) => {
       : "border-[#deddd7] bg-[#fffdfa]"
   }`}
 >
-    <p className="text-sm font-semibold text-[#707b7e]">Interviews</p>
-    <p className="mt-2 text-3xl font-extrabold text-[#4f857f]">
-      {interviewCount}
-    </p>
+    <p
+  className={`text-sm font-semibold ${
+    theme === "dark" ? "text-white" : "text-[#707b7e]"
+  }`}
+>
+  Interviews
+</p>
+    <p
+  className={`mt-2 text-3xl font-extrabold ${
+    theme === "dark" ? "text-white" : "text-[#203039]"
+  }`}
+>
+  {interviewCount}
+</p>
   </div>
 
   <div
@@ -514,10 +528,16 @@ const handleEdit = (application: Application) => {
       : "border-[#deddd7] bg-[#fffdfa]"
   }`}
 >
-    <p className="text-sm font-semibold text-[#707b7e]">Offers</p>
-    <p className="mt-2 text-3xl font-extrabold text-[#d96f57]">
-      {offerCount}
-    </p>
+    <p
+  className={`text-sm font-semibold ${
+    theme === "dark" ? "text-white" : "text-[#707b7e]"
+  }`}
+>
+  Offers
+</p>
+    <p className="mt-2 text-3xl font-extrabold text-[#55B87A]">
+  {offerCount}
+</p>
   </div>
 
   <div
@@ -527,10 +547,16 @@ const handleEdit = (application: Application) => {
       : "border-[#deddd7] bg-[#fffdfa]"
   }`}
 >
-    <p className="text-sm font-semibold text-[#707b7e]">Rejections</p>
-    <p className="mt-2 text-3xl font-extrabold text-[#9a5b51]">
-      {rejectedCount}
-    </p>
+    <p
+  className={`text-sm font-semibold ${
+    theme === "dark" ? "text-white" : "text-[#707b7e]"
+  }`}
+>
+  Rejections
+</p>
+    <p className="mt-2 text-3xl font-extrabold text-[#E05A52]">
+  {rejectedCount}
+</p>
   </div>
 </section>
 )}      {activePage === "Applications" && (
@@ -542,7 +568,11 @@ const handleEdit = (application: Application) => {
   }`}
 >
   <div className="mb-6">
-    <p className="text-sm font-bold text-[#4f857f]">
+    <p
+  className={`text-sm font-bold ${
+    theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
+  }`}
+>
       New application
     </p>
 
@@ -726,7 +756,11 @@ const handleEdit = (application: Application) => {
   }`}
 >
   <div className="mb-6">
-    <p className="text-sm font-bold text-[#4f857f]">
+    <p
+  className={`text-sm font-bold ${
+    theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
+  }`}
+>
       Applications
     </p>
 
@@ -828,7 +862,11 @@ const handleEdit = (application: Application) => {
                 {application.company}
               </h3>
 
-              <p className="mt-1 font-semibold text-[#4f857f]">
+              <p
+  className={`mt-1 font-semibold ${
+    theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
+  }`}
+>
                 {application.position}
               </p>
 
@@ -856,7 +894,7 @@ const handleEdit = (application: Application) => {
     <button
       type="button"
       onClick={() => handleEdit(application)}
-      className="inline-flex items-center gap-1.5 rounded-xl border border-[#d8d8d1] px-3 py-2 text-xs font-bold text-[#4f857f] transition hover:bg-[#eaf2f0]"
+      className="inline-flex items-center gap-1.5 rounded-xl border border-[#d8d8d1] px-3 py-2 text-xs font-bold text-[#9BD3CD] transition hover:bg-[#eaf2f0]"
     >
       <Pencil className="h-4 w-4" />
       Edit
@@ -901,9 +939,13 @@ const handleEdit = (application: Application) => {
   }`}
 >
     <div className="mb-6">
-      <p className="text-sm font-bold text-[#4f857f]">
-        Interviews
-      </p>
+     <p
+  className={`text-sm font-bold ${
+    theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
+  }`}
+>
+    Interviews
+</p>
 
       <h2
   className={`mt-1 text-2xl font-extrabold tracking-tight ${
@@ -945,9 +987,13 @@ const handleEdit = (application: Application) => {
               {application.company}
             </h3>
 
-            <p className="mt-1 font-semibold text-[#4f857f]">
-              {application.position}
-            </p>
+            <p
+  className={`mt-1 font-semibold ${
+    theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
+  }`}
+>
+  {application.position}
+</p>
 
             <div
   className={`mt-3 flex flex-wrap gap-4 text-sm ${
@@ -986,9 +1032,13 @@ const handleEdit = (application: Application) => {
       : "border-[#deddd7] bg-[#fffdfa]"
   }`}
 >    <div className="mb-6">
-      <p className="text-sm font-bold text-[#4f857f]">
-        Documents
-      </p>
+     <p
+  className={`text-sm font-bold ${
+    theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
+  }`}
+>
+  Documents
+</p>
 
       <h2
   className={`mt-1 text-2xl font-extrabold tracking-tight ${
@@ -1108,7 +1158,9 @@ const handleEdit = (application: Application) => {
               href={document.link}
               target="_blank"
               rel="noreferrer"
-              className="text-sm font-bold text-[#4f857f] hover:underline"
+              className={`text-sm font-bold hover:underline ${
+  theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
+}`}
             >
               Open document
             </a>
@@ -1121,17 +1173,35 @@ const handleEdit = (application: Application) => {
   </section>
 )}
 {activePage === "Settings" && (
-  <section className="rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
+  <section
+  className={`rounded-[28px] border p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)] transition-colors duration-300 ${
+    theme === "dark"
+      ? "border-[#345055] bg-[#20383b]"
+      : "border-[#deddd7] bg-[#fffdfa]"
+  }`}
+>
     <div className="mb-6">
-      <p className="text-sm font-bold text-[#4f857f]">
+      <p
+  className={`text-sm font-bold ${
+    theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
+  }`}
+>
         Appearance
       </p>
 
-      <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#203039]">
+      <h2
+  className={`mt-1 text-2xl font-extrabold tracking-tight ${
+    theme === "dark" ? "text-white" : "text-[#203039]"
+  }`}
+>
         Choose your theme
       </h2>
 
-      <p className="mt-2 text-sm text-[#707b7e]">
+      <p
+  className={`mt-2 text-sm ${
+    theme === "dark" ? "text-[#b7c5c6]" : "text-[#707b7e]"
+  }`}
+>
         Select the appearance you prefer for your internship tracker.
       </p>
     </div>
