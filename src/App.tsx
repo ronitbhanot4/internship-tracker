@@ -534,17 +534,31 @@ const handleEdit = (application: Application) => {
   </div>
 </section>
 )}      {activePage === "Applications" && (
-          <section className="rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
+          <section
+  className={`rounded-[28px] border p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)] transition-colors duration-300 ${
+    theme === "dark"
+      ? "border-[#345055] bg-[#20383b]"
+      : "border-[#deddd7] bg-[#fffdfa]"
+  }`}
+>
   <div className="mb-6">
     <p className="text-sm font-bold text-[#4f857f]">
       New application
     </p>
 
-    <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#203039]">
+    <h2
+  className={`mt-1 text-2xl font-extrabold tracking-tight ${
+    theme === "dark" ? "text-white" : "text-[#203039]"
+  }`}
+>
       {editingId !== null ? "Edit application" : "Add an application"}
     </h2>
 
-    <p className="mt-2 text-sm text-[#707b7e]">
+    <p
+  className={`mt-2 text-sm ${
+    theme === "dark" ? "text-[#b7c5c6]" : "text-[#707b7e]"
+  }`}
+>
       Keep the important details from each application in one place.
     </p>
   </div>
@@ -554,7 +568,11 @@ const handleEdit = (application: Application) => {
   className="grid gap-5 sm:grid-cols-2"
 >
     <div>
-      <label className="mb-2 block text-sm font-semibold text-[#34444b]">
+      <label
+  className={`mb-2 block text-sm font-semibold ${
+    theme === "dark" ? "text-[#c7d4d5]" : "text-[#34444b]"
+  }`}
+>
         Company
       </label>
 
@@ -564,12 +582,20 @@ const handleEdit = (application: Application) => {
         value={company}
         onChange={(event) => setCompany(event.target.value)}
         required
-        className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+        className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d] text-white placeholder:text-[#8fa3a6] focus:border-[#4f857f]"
+    : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+}`}
       />
     </div>
 
     <div>
-      <label className="mb-2 block text-sm font-semibold text-[#34444b]">
+      <label
+  className={`mb-2 block text-sm font-semibold ${
+    theme === "dark" ? "text-[#c7d4d5]" : "text-[#34444b]"
+  }`}
+>
         Position
       </label>
 
@@ -579,12 +605,20 @@ const handleEdit = (application: Application) => {
         value={position}
         onChange={(event) => setPosition(event.target.value)}
         required
-        className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+        className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d] text-white placeholder:text-[#8fa3a6] focus:border-[#4f857f]"
+    : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+}`}
       />
     </div>
 
     <div>
-      <label className="mb-2 block text-sm font-semibold text-[#34444b]">
+      <label
+  className={`mb-2 block text-sm font-semibold ${
+    theme === "dark" ? "text-[#c7d4d5]" : "text-[#34444b]"
+  }`}
+>
         Location
       </label>
 
@@ -593,12 +627,20 @@ const handleEdit = (application: Application) => {
         placeholder="e.g. Toronto, ON"
         value={location}
         onChange={(event) => setLocation(event.target.value)}
-        className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+        className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d] text-white placeholder:text-[#8fa3a6] focus:border-[#4f857f]"
+    : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+}`}
       />
     </div>
 
     <div>
-      <label className="mb-2 block text-sm font-semibold text-[#34444b]">
+      <label
+  className={`mb-2 block text-sm font-semibold ${
+    theme === "dark" ? "text-[#c7d4d5]" : "text-[#34444b]"
+  }`}
+>
         Date applied
       </label>
 
@@ -607,12 +649,20 @@ const handleEdit = (application: Application) => {
         value={dateApplied}
         onChange={(event) => setDateApplied(event.target.value)}
         required
-        className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+        className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d] text-white placeholder:text-[#8fa3a6] focus:border-[#4f857f]"
+    : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+}`}
       />
     </div>
 
     <div>
-      <label className="mb-2 block text-sm font-semibold text-[#34444b]">
+      <label
+  className={`mb-2 block text-sm font-semibold ${
+    theme === "dark" ? "text-[#c7d4d5]" : "text-[#34444b]"
+  }`}
+>
         Status
       </label>
 
@@ -621,7 +671,11 @@ const handleEdit = (application: Application) => {
         onChange={(event) =>
         setStatus(event.target.value as ApplicationStatus)
         }
-        className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+        className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d] text-white focus:border-[#4f857f]"
+    : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+}`}
       >
         <option>Applied</option>
         <option>Interview</option>
@@ -631,7 +685,11 @@ const handleEdit = (application: Application) => {
     </div>
 
     <div className="sm:col-span-2">
-      <label className="mb-2 block text-sm font-semibold text-[#34444b]">
+      <label
+  className={`mb-2 block text-sm font-semibold ${
+    theme === "dark" ? "text-[#c7d4d5]" : "text-[#34444b]"
+  }`}
+>
         Notes
       </label>
 
@@ -640,7 +698,11 @@ const handleEdit = (application: Application) => {
         placeholder="Anything useful to remember about this application..."
         value={notes}
         onChange={(event) => setNotes(event.target.value)}
-        className="w-full resize-none rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+        className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d] text-white placeholder:text-[#8fa3a6] focus:border-[#4f857f]"
+    : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+}`}
       />
     </div>
 
@@ -656,13 +718,23 @@ const handleEdit = (application: Application) => {
 </section>
 )}
 {activePage === "Applications" && (
-<section className="mt-8 rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
+<section
+  className={`mt-8 rounded-[28px] border p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)] transition-colors duration-300 ${
+    theme === "dark"
+      ? "border-[#345055] bg-[#20383b]"
+      : "border-[#deddd7] bg-[#fffdfa]"
+  }`}
+>
   <div className="mb-6">
     <p className="text-sm font-bold text-[#4f857f]">
       Applications
     </p>
 
-    <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#203039]">
+    <h2
+  className={`mt-1 text-2xl font-extrabold tracking-tight ${
+    theme === "dark" ? "text-white" : "text-[#203039]"
+  }`}
+>
       Your applications
     </h2>
   </div>
@@ -673,7 +745,11 @@ const handleEdit = (application: Application) => {
     value={searchTerm}
     onChange={(event) => setSearchTerm(event.target.value)}
     placeholder="Search company, position, or location..."
-    className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+    className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d] text-white placeholder:text-[#8fa3a6] focus:border-[#4f857f]"
+    : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+}`}
   />
 
   <select
@@ -683,7 +759,11 @@ const handleEdit = (application: Application) => {
         event.target.value as "All" | ApplicationStatus,
       )
     }
-    className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+    className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d] text-white focus:border-[#4f857f]"
+    : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+}`}
   >
     <option value="All">Filter by status</option>
     <option value="Applied">Applied</option>
@@ -702,7 +782,11 @@ const handleEdit = (application: Application) => {
         | "companyZA",
     )
   }
-  className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+  className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d] text-white focus:border-[#4f857f]"
+    : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+}`}
 >
   <option value="newest">Newest first</option>
   <option value="oldest">Oldest first</option>
@@ -728,11 +812,19 @@ const handleEdit = (application: Application) => {
       {filteredApplications.map((application) => (
         <article
           key={application.id}
-          className="rounded-2xl border border-[#deddd7] bg-white p-5"
+          className={`rounded-2xl border p-5 transition-colors duration-300 ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d]"
+    : "border-[#deddd7] bg-white"
+}`}
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h3 className="text-lg font-extrabold text-[#203039]">
+              <h3
+  className={`text-lg font-extrabold ${
+    theme === "dark" ? "text-white" : "text-[#203039]"
+  }`}
+>
                 {application.company}
               </h3>
 
@@ -740,7 +832,11 @@ const handleEdit = (application: Application) => {
                 {application.position}
               </p>
 
-              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-[#707b7e]">
+              <div
+  className={`mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm ${
+    theme === "dark" ? "text-[#a9b9bb]" : "text-[#707b7e]"
+  }`}
+>
                 {application.location && (
                   <span>{application.location}</span>
                 )}
@@ -779,7 +875,13 @@ const handleEdit = (application: Application) => {
           </div>
 
           {application.notes && (
-            <p className="mt-4 border-t border-[#eceae4] pt-4 text-sm leading-6 text-[#657277]">
+            <p
+  className={`mt-4 border-t pt-4 text-sm leading-6 ${
+    theme === "dark"
+      ? "border-[#345055] text-[#a9b9bb]"
+      : "border-[#eceae4] text-[#657277]"
+  }`}
+>
               {application.notes}
             </p>
           )}
