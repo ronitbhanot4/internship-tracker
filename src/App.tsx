@@ -110,7 +110,11 @@ function App() {
   const [activePage, setActivePage] = useState<
   "Dashboard" | "Applications" | "Interviews" | "Documents" | "Settings"
 >("Dashboard");
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+  return localStorage.getItem("internshipTheme") === "dark"
+    ? "dark"
+    : "light";
+});
   useEffect(() => {
   localStorage.setItem(
     "internshipApplications",
@@ -123,6 +127,10 @@ function App() {
     JSON.stringify(documents),
   );
 }, [documents]);
+
+useEffect(() => {
+  localStorage.setItem("internshipTheme", theme);
+}, [theme]);
   const totalApplications = applications.length;
 
 const interviewCount = applications.filter(
@@ -277,7 +285,13 @@ const handleEdit = (application: Application) => {
 };
 
   return (
-    <div className="min-h-screen bg-[#f6f5f1] text-[#24313a]">
+    <div
+  className={`min-h-screen transition-colors duration-300 ${
+    theme === "dark"
+      ? "bg-[#172a2d] text-[#f6f5f1]"
+      : "bg-[#f6f5f1] text-[#24313a]"
+  }`}
+>
       {isSidebarOpen && (
         <button
           type="button"
@@ -369,7 +383,13 @@ const handleEdit = (application: Application) => {
       </aside>
 
       <main className="min-h-screen lg:pl-72">
-        <header className="border-b border-[#deddd7] bg-[#fffdfa]/90 backdrop-blur">
+        <header
+  className={`border-b backdrop-blur transition-colors duration-300 ${
+    theme === "dark"
+      ? "border-[#345055] bg-[#20383b]/95"
+      : "border-[#deddd7] bg-[#fffdfa]/90"
+  }`}
+>
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-6 sm:px-8">
             <div className="flex items-center gap-3">
               <button
@@ -386,7 +406,11 @@ const handleEdit = (application: Application) => {
                   {activePage}
                 </p>
 
-                <h1 className="text-xl font-extrabold tracking-tight text-[#203039] sm:text-2xl">
+                <h1
+  className={`text-xl font-extrabold tracking-tight sm:text-2xl ${
+    theme === "dark" ? "text-white" : "text-[#203039]"
+  }`}
+>
   {activePage === "Dashboard"
   ? "Good afternoon, Ronit"
   : activePage === "Applications"
@@ -398,7 +422,11 @@ const handleEdit = (application: Application) => {
         : "Settings"}
 </h1>
 
-<p className="mt-1.5 text-sm font-medium text-[#6e797d]">
+<p
+  className={`mt-1.5 text-sm font-medium ${
+    theme === "dark" ? "text-[#a9b9bb]" : "text-[#6e797d]"
+  }`}
+>
   {activePage === "Dashboard"
   ? "Keep your internship search organized and moving forward."
   : activePage === "Applications"
@@ -443,30 +471,62 @@ const handleEdit = (application: Application) => {
 {activePage === "Dashboard" && (
         
           <section className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-  <div className="rounded-2xl border border-[#deddd7] bg-[#fffdfa] p-5 shadow-sm">
-    <p className="text-sm font-semibold text-[#707b7e]">
+  <div
+  className={`rounded-2xl border p-5 shadow-sm ${
+    theme === "dark"
+      ? "border-[#345055] bg-[#1d3437]"
+      : "border-[#deddd7] bg-[#fffdfa]"
+  }`}
+>
+    <p
+  className={`text-sm font-semibold ${
+    theme === "dark" ? "text-[#a9b9bb]" : "text-[#707b7e]"
+  }`}
+>
       Total applications
     </p>
-    <p className="mt-2 text-3xl font-extrabold text-[#203039]">
+    <p
+  className={`mt-2 text-3xl font-extrabold ${
+    theme === "dark" ? "text-white" : "text-[#203039]"
+  }`}
+>
       {totalApplications}
     </p>
   </div>
 
-  <div className="rounded-2xl border border-[#deddd7] bg-[#fffdfa] p-5 shadow-sm">
+  <div
+  className={`rounded-2xl border p-5 shadow-sm ${
+    theme === "dark"
+      ? "border-[#345055] bg-[#1d3437]"
+      : "border-[#deddd7] bg-[#fffdfa]"
+  }`}
+>
     <p className="text-sm font-semibold text-[#707b7e]">Interviews</p>
     <p className="mt-2 text-3xl font-extrabold text-[#4f857f]">
       {interviewCount}
     </p>
   </div>
 
-  <div className="rounded-2xl border border-[#deddd7] bg-[#fffdfa] p-5 shadow-sm">
+  <div
+  className={`rounded-2xl border p-5 shadow-sm ${
+    theme === "dark"
+      ? "border-[#345055] bg-[#1d3437]"
+      : "border-[#deddd7] bg-[#fffdfa]"
+  }`}
+>
     <p className="text-sm font-semibold text-[#707b7e]">Offers</p>
     <p className="mt-2 text-3xl font-extrabold text-[#d96f57]">
       {offerCount}
     </p>
   </div>
 
-  <div className="rounded-2xl border border-[#deddd7] bg-[#fffdfa] p-5 shadow-sm">
+  <div
+  className={`rounded-2xl border p-5 shadow-sm ${
+    theme === "dark"
+      ? "border-[#345055] bg-[#1d3437]"
+      : "border-[#deddd7] bg-[#fffdfa]"
+  }`}
+>
     <p className="text-sm font-semibold text-[#707b7e]">Rejections</p>
     <p className="mt-2 text-3xl font-extrabold text-[#9a5b51]">
       {rejectedCount}
@@ -789,19 +849,32 @@ const handleEdit = (application: Application) => {
 )}
 
 {activePage === "Documents" && (
-  <section className="rounded-[28px] border border-[#deddd7] bg-[#fffdfa] p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)]">
-    <div className="mb-6">
+<section
+  className={`rounded-[28px] border p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)] transition-colors duration-300 ${
+    theme === "dark"
+      ? "border-[#345055] bg-[#20383b]"
+      : "border-[#deddd7] bg-[#fffdfa]"
+  }`}
+>    <div className="mb-6">
       <p className="text-sm font-bold text-[#4f857f]">
         Documents
       </p>
 
-      <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#203039]">
+      <h2
+  className={`mt-1 text-2xl font-extrabold tracking-tight ${
+    theme === "dark" ? "text-white" : "text-[#203039]"
+  }`}
+>
         Your documents
       </h2>
 
-      <p className="mt-2 text-sm text-[#707b7e]">
-        Keep your resumes, cover letters, and application files organized in one place.
-      </p>
+      <p
+  className={`mt-2 text-sm ${
+    theme === "dark" ? "text-[#a9b9bb]" : "text-[#707b7e]"
+  }`}
+>
+  Keep your resumes, cover letters, and application files organized in one place.
+</p>
     </div>
 
     <div className="space-y-6">
@@ -811,7 +884,11 @@ const handleEdit = (application: Application) => {
       value={documentName}
       onChange={(event) => setDocumentName(event.target.value)}
       placeholder="Document name"
-      className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+      className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d] text-white placeholder:text-[#8fa3a6] focus:border-[#4f857f]"
+    : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+}`}
     />
 
     <select
@@ -819,7 +896,11 @@ const handleEdit = (application: Application) => {
       onChange={(event) =>
         setDocumentType(event.target.value as DocumentType)
       }
-      className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+      className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d] text-white focus:border-[#4f857f]"
+    : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+}`}
     >
       <option value="Resume">Resume</option>
       <option value="Cover Letter">Cover Letter</option>
@@ -833,7 +914,11 @@ const handleEdit = (application: Application) => {
       value={documentLink}
       onChange={(event) => setDocumentLink(event.target.value)}
       placeholder="Document link (optional)"
-      className="w-full rounded-2xl border border-[#d8d8d1] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#4f857f] focus:ring-4 focus:ring-[#4f857f]/10"
+      className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d] text-white placeholder:text-[#8fa3a6] focus:border-[#4f857f]"
+    : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+}`}
     />
 
     <button
@@ -860,14 +945,30 @@ const handleEdit = (application: Application) => {
       {documents.map((document) => (
         <div
           key={document.id}
-          className="flex flex-col gap-3 rounded-2xl border border-[#deddd7] bg-white p-5 sm:flex-row sm:items-center sm:justify-between"
+          className={`flex flex-col gap-3 rounded-2xl border p-5 sm:flex-row sm:items-center sm:justify-between ${
+  theme === "dark"
+    ? "border-[#345055] bg-[#172a2d]"
+    : "border-[#deddd7] bg-white"
+}`}
         >
           <div>
-            <p className="font-bold text-[#203039]">
+            <p
+  className={
+    theme === "dark"
+      ? "font-bold text-white"
+      : "font-bold text-[#203039]"
+  }
+>
               {document.name}
             </p>
 
-            <p className="mt-1 text-sm text-[#707b7e]">
+            <p
+  className={
+    theme === "dark"
+      ? "mt-1 text-sm text-[#a9b9bb]"
+      : "mt-1 text-sm text-[#707b7e]"
+  }
+>
               {document.type}
             </p>
           </div>
