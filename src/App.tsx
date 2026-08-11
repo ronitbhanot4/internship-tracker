@@ -211,6 +211,17 @@ const handleAddDocument = () => {
   setDocumentType("Resume");
   setDocumentLink("");
 };
+const handleDeleteDocument = (id: number) => {
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this document?"
+  );
+
+  if (!confirmed) return;
+
+  setDocuments((currentDocuments) =>
+    currentDocuments.filter((document) => document.id !== id),
+  );
+};
 
 
 const handleEdit = (application: Application) => {
@@ -1165,6 +1176,13 @@ const handleEdit = (application: Application) => {
               Open document
             </a>
           )}
+          <button
+  type="button"
+  onClick={() => handleDeleteDocument(document.id)}
+  className="text-sm font-bold text-[#E05A52] hover:underline"
+>
+  Delete
+</button>
         </div>
       ))}
     </div>
