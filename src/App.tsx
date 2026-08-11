@@ -44,6 +44,7 @@ type Application = {
   location: string;
   dateApplied: string;
   status: ApplicationStatus;
+  interviewDate?: string;
   notes: string;
 };
 
@@ -96,6 +97,7 @@ function App() {
   const [position, setPosition] = useState("");
   const [location, setLocation] = useState("");
   const [dateApplied, setDateApplied] = useState("");
+  const [interviewDate, setInterviewDate] = useState("");
   const [status, setStatus] = useState<ApplicationStatus>("Applied");
   const [notes, setNotes] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -184,6 +186,37 @@ const filteredApplications = applications
   const interviewApplications = applications.filter(
   (application) => application.status === "Interview",
 );
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const upcomingInterviews = interviewApplications
+  .filter((application) => {
+    if (!application.interviewDate) return false;
+
+    return new Date(application.interviewDate) >= today;
+  })
+  .sort(
+    (a, b) =>
+      new Date(a.interviewDate!).getTime() -
+      new Date(b.interviewDate!).getTime(),
+  );
+
+const pastInterviews = interviewApplications
+  .filter((application) => {
+    if (!application.interviewDate) return false;
+
+    return new Date(application.interviewDate) < today;
+  })
+  .sort(
+    (a, b) =>
+      new Date(b.interviewDate!).getTime() -
+      new Date(a.interviewDate!).getTime(),
+  );
+
+const interviewsWithoutDate = interviewApplications.filter(
+  (application) => !application.interviewDate,
+);
   const handleDelete = (id: number) => {
   setApplications((currentApplications) =>
     currentApplications.filter((application) => application.id !== id),
@@ -229,6 +262,7 @@ const handleEdit = (application: Application) => {
   setPosition(application.position);
   setLocation(application.location);
   setDateApplied(application.dateApplied);
+  setInterviewDate(application.interviewDate || "");
   setStatus(application.status);
   setNotes(application.notes);
   setEditingId(application.id);
@@ -255,6 +289,7 @@ const handleEdit = (application: Application) => {
             position: position.trim(),
             location: location.trim(),
             dateApplied,
+            interviewDate,
             status,
             notes: notes.trim(),
           }
@@ -278,6 +313,7 @@ const handleEdit = (application: Application) => {
     position: position.trim(),
     location: location.trim(),
     dateApplied,
+    interviewDate,
     status,
     notes: notes.trim(),
   };
@@ -291,6 +327,7 @@ const handleEdit = (application: Application) => {
   setPosition("");
   setLocation("");
   setDateApplied("");
+  setInterviewDate("");
   setStatus("Applied");
   setNotes("");
 };
@@ -723,6 +760,29 @@ const handleEdit = (application: Application) => {
         <option>Offer</option>
         <option>Rejected</option>
       </select>
+
+      {status === "Interview" && (
+  <div>
+    <label
+      className={`mb-2 block text-sm font-semibold ${
+        theme === "dark" ? "text-white" : "text-[#34444b]"
+      }`}
+    >
+      Interview date
+    </label>
+
+    <input
+      type="date"
+      value={interviewDate}
+      onChange={(event) => setInterviewDate(event.target.value)}
+      className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+        theme === "dark"
+          ? "border-[#345055] bg-[#172a2d] text-white focus:border-[#4f857f]"
+          : "border-[#d8d8d1] bg-white text-[#24313a] focus:border-[#4f857f]"
+      }`}
+    />
+  </div>
+)}
     </div>
 
     <div className="sm:col-span-2">
@@ -893,6 +953,9 @@ const handleEdit = (application: Application) => {
                 <span>
                   Applied {application.dateApplied}
                 </span>
+                {application.interviewDate && (
+  <span>Interview {application.interviewDate}</span>
+)}
               </div>
             </div>
 
@@ -981,7 +1044,24 @@ const handleEdit = (application: Application) => {
       </div>
     ) : (
       <div className="space-y-4">
-        {interviewApplications.map((application) => (
+        <h3
+  className={`text-lg font-extrabold ${
+    theme === "dark" ? "text-white" : "text-[#203039]"
+  }`}
+>
+  Upcoming interviews
+</h3>
+{upcomingInterviews.length === 0 && (
+  <p
+    className={`text-sm ${
+      theme === "dark" ? "text-[#a9b9bb]" : "text-[#707b7e]"
+    }`}
+  >
+    No upcoming interviews scheduled.
+  </p>
+)}
+
+        {upcomingInterviews.map((application) => (
           <article
             key={application.id}
             className={`rounded-2xl border p-5 transition-colors duration-300 ${
@@ -989,6 +1069,7 @@ const handleEdit = (application: Application) => {
     ? "border-[#345055] bg-[#172a2d]"
     : "border-[#deddd7] bg-white"
 }`}
+
           >
             <h3
   className={`text-lg font-extrabold ${
@@ -1015,6 +1096,9 @@ const handleEdit = (application: Application) => {
                 <span>{application.location}</span>
               )}
               <span>Applied {application.dateApplied}</span>
+              {application.interviewDate && (
+  <span>Interview {application.interviewDate}</span>
+)}
             </div>
 
             {application.notes && (
@@ -1030,6 +1114,72 @@ const handleEdit = (application: Application) => {
             )}
           </article>
         ))}
+        {pastInterviews.length > 0 && (
+  <>
+    <h3
+      className={`pt-4 text-lg font-extrabold ${
+        theme === "dark" ? "text-white" : "text-[#203039]"
+      }`}
+    >
+      Past interviews
+    </h3>
+
+    {pastInterviews.map((application) => (
+      <article
+        key={application.id}
+        className={`rounded-2xl border p-5 transition-colors duration-300 ${
+          theme === "dark"
+            ? "border-[#345055] bg-[#172a2d]"
+            : "border-[#deddd7] bg-white"
+        }`}
+      >
+        <h3
+          className={`text-lg font-extrabold ${
+            theme === "dark" ? "text-white" : "text-[#203039]"
+          }`}
+        >
+          {application.company}
+        </h3>
+
+        <p
+          className={`mt-1 font-semibold ${
+            theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
+          }`}
+        >
+          {application.position}
+        </p>
+
+        <div
+          className={`mt-3 flex flex-wrap gap-4 text-sm ${
+            theme === "dark" ? "text-[#a9b9bb]" : "text-[#707b7e]"
+          }`}
+        >
+          {application.location && (
+            <span>{application.location}</span>
+          )}
+
+          <span>Applied {application.dateApplied}</span>
+
+          {application.interviewDate && (
+            <span>Interview {application.interviewDate}</span>
+          )}
+        </div>
+
+        {application.notes && (
+          <p
+            className={`mt-4 border-t pt-4 text-sm leading-6 ${
+              theme === "dark"
+                ? "border-[#345055] text-[#a9b9bb]"
+                : "border-[#eceae4] text-[#657277]"
+            }`}
+          >
+            {application.notes}
+          </p>
+        )}
+      </article>
+    ))}
+  </>
+)}
       </div>
     )}
   </section>
