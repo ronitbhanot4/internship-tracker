@@ -214,9 +214,7 @@ const pastInterviews = interviewApplications
       new Date(a.interviewDate!).getTime(),
   );
 
-const interviewsWithoutDate = interviewApplications.filter(
-  (application) => !application.interviewDate,
-);
+
   const handleDelete = (id: number) => {
   setApplications((currentApplications) =>
     currentApplications.filter((application) => application.id !== id),
@@ -521,6 +519,7 @@ const handleEdit = (application: Application) => {
 
 
 {activePage === "Dashboard" && (
+  <>
         
           <section className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
   <div
@@ -607,7 +606,59 @@ const handleEdit = (application: Application) => {
 </p>
   </div>
 </section>
-)}      {activePage === "Applications" && (
+{upcomingInterviews.length > 0 && (
+  <section
+    className={`mt-6 rounded-[28px] border p-6 shadow-[0_18px_50px_rgba(54,70,70,0.07)] ${
+      theme === "dark"
+        ? "border-[#345055] bg-[#20383b]"
+        : "border-[#deddd7] bg-[#fffdfa]"
+    }`}
+  >
+    <p
+      className={`text-sm font-bold ${
+        theme === "dark" ? "text-white" : "text-[#4f857f]"
+      }`}
+    >
+      Next interview
+    </p>
+
+    <h2
+      className={`mt-1 text-xl font-extrabold ${
+        theme === "dark" ? "text-white" : "text-[#203039]"
+      }`}
+    >
+      {upcomingInterviews[0].company}
+    </h2>
+
+    <p
+      className={`mt-1 text-sm font-semibold ${
+        theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
+      }`}
+    >
+      {upcomingInterviews[0].position}
+    </p>
+
+    <p
+      className={`mt-3 text-sm ${
+        theme === "dark" ? "text-[#a9b9bb]" : "text-[#707b7e]"
+      }`}
+    >
+      Interview{" "}
+{new Date(
+  upcomingInterviews[0].interviewDate + "T00:00:00",
+).toLocaleDateString("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+})}
+    </p>
+      </section>
+  )}
+
+  </>
+)}
+
+{activePage === "Applications" && (
           <section
   className={`rounded-[28px] border p-7 shadow-[0_18px_50px_rgba(54,70,70,0.07)] transition-colors duration-300 ${
     theme === "dark"
