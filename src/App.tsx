@@ -59,6 +59,9 @@ type Document = {
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [displayName, setDisplayName] = useState(() => {
+  return localStorage.getItem("internbase-display-name") || "User";
+});
   const [applications, setApplications] = useState<Application[]>(() => {
   const savedApplications = localStorage.getItem("internshipApplications");
   
@@ -354,13 +357,17 @@ const handleEdit = (application: Application) => {
       >
         <div className="flex h-24 items-center justify-between border-b border-white/10 px-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#e98b72] shadow-sm">
-              <BriefcaseBusiness className="h-5 w-5 text-white" />
-            </div>
+            <div className="h-12 w-12 rounded-2xl bg-[#fffdfa] p-1.5 shadow-sm flex items-center justify-center">
+  <img
+    src="/internbase-logo.png"
+    alt="InternBase logo"
+    className="h-full w-full object-contain"
+  />
+</div>
 
             <div>
               <p className="font-extrabold tracking-tight">
-                Internship Tracker
+                InternBase
               </p>
 
               <p className="mt-1 text-xs font-medium text-[#b8ceca]">
@@ -462,7 +469,7 @@ const handleEdit = (application: Application) => {
   }`}
 >
   {activePage === "Dashboard"
-  ? "Good afternoon, Ronit"
+  ? `Good afternoon, ${displayName}`
   : activePage === "Applications"
     ? "Application Tracker"
     : activePage === "Interviews"
@@ -1399,6 +1406,48 @@ const handleEdit = (application: Application) => {
       : "border-[#deddd7] bg-[#fffdfa]"
   }`}
 >
+
+  <div className="mb-8">
+  <p
+    className={`text-sm font-bold ${
+      theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
+    }`}
+  >
+    Profile
+  </p>
+
+  <h2
+    className={`mt-1 text-2xl font-extrabold ${
+      theme === "dark" ? "text-white" : "text-[#203039]"
+    }`}
+  >
+    Your name
+  </h2>
+
+  <p
+    className={`mt-2 text-sm ${
+      theme === "dark" ? "text-[#a9b9bb]" : "text-[#707b7e]"
+    }`}
+  >
+    This name will appear on your dashboard.
+  </p>
+
+  <input
+    type="text"
+    value={displayName}
+    onChange={(event) => {
+      const newName = event.target.value;
+      setDisplayName(newName);
+      localStorage.setItem("internbase-display-name", newName);
+    }}
+    placeholder="Enter your name"
+    className={`mt-4 w-full max-w-md rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+      theme === "dark"
+        ? "border-[#345055] bg-[#172a2d] text-white placeholder:text-[#8fa3a6] focus:border-[#9BD3CD]"
+        : "border-[#d8d8d1] bg-white text-[#24313a] placeholder:text-[#8b9598] focus:border-[#4f857f]"
+    }`}
+  />
+</div>
     <div className="mb-6">
       <p
   className={`text-sm font-bold ${

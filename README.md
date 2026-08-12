@@ -1,27 +1,22 @@
-# Internship Tracker
+# InternBase
 
-A web application for keeping track of internship applications during recruiting season.
+InternBase is a web application I built to organize and track internship applications during recruiting season.
 
-I started this project because application details can become difficult to manage across spreadsheets, emails, and notes. The goal is to keep applications, interviews, deadlines, and status updates in one place.
+I wanted a simple way to keep applications, interviews, documents, and application progress in one place instead of having everything spread across spreadsheets, emails, and notes.
 
-## Current Features
+## Features
 
-- Responsive dashboard layout
-- Sidebar navigation
-- Application overview area
-- Mobile navigation menu
-- Clean and accessible interface
-
-## Planned Features
-
-- Add and edit internship applications
+- Add, edit, and delete internship applications
 - Track application status
-- Record company, role, location, and application date
-- Search and filter applications
-- Track interviews and deadlines
-- View application statistics
-- Save application data
-- User accounts and authentication
+- Store company, position, location, and application dates
+- Track upcoming and past interviews
+- View application statistics on the dashboard
+- See the next upcoming interview
+- Store application documents and links
+- Personalized dashboard greeting
+- Light and dark mode
+- Saves data locally between sessions
+- Responsive interface for different screen sizes
 
 ## Tech Stack
 
@@ -30,6 +25,7 @@ I started this project because application details can become difficult to manag
 - Vite
 - Tailwind CSS
 - Lucide React
+- Local Storage
 
 ## Run Locally
 
@@ -39,7 +35,7 @@ Clone the repository:
 git clone https://github.com/ronitbhanot4/internship-tracker.git
 ```
 
-Open the project folder:
+Move into the project folder:
 
 ```bash
 cd internship-tracker
@@ -63,9 +59,11 @@ Create a production build:
 npm run build
 ```
 
-## Project Status
+## What I Learned
 
-This project is currently in development. The dashboard layout and navigation are complete, and the application-management features will be added in later stages.
+Building InternBase gave me more experience working with React and TypeScript, managing application state, storing data locally, and building a responsive user interface.
+
+I also worked through adding and updating features while keeping the different parts of the application connected as the project grew.
 
 ## Author
 
