@@ -464,11 +464,11 @@ const handleEdit = (application: Application) => {
   {activePage === "Dashboard"
   ? "Good afternoon, Ronit"
   : activePage === "Applications"
-    ? "Applications"
+    ? "Application Tracker"
     : activePage === "Interviews"
-      ? "Interviews"
+      ? "Interview Tracker"
       : activePage === "Documents"
-        ? "Documents"
+        ? "Document Libary"
         : "Settings"}
 </h1>
 
@@ -883,7 +883,7 @@ const handleEdit = (application: Application) => {
     theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
   }`}
 >
-      Applications
+      APPLICATION LIST
     </p>
 
     <h2
@@ -1069,7 +1069,7 @@ const handleEdit = (application: Application) => {
     theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
   }`}
 >
-    Interviews
+    INTERVIEW SCHEDULE
 </p>
 
       <h2
@@ -1249,7 +1249,7 @@ const handleEdit = (application: Application) => {
     theme === "dark" ? "text-[#9BD3CD]" : "text-[#4f857f]"
   }`}
 >
-  Documents
+  LIBRARY
 </p>
 
       <h2
